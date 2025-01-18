@@ -41,7 +41,7 @@ jobs:
           python-version: ${{ github.event.inputs.python-version }}
       - name: Get random code
         run: |
-          python3 ra.py >> $GITHUB_ENV
+          python3 ra.py
       - name: Download package
         run: |
           mkdir download_packages

@@ -31,17 +31,17 @@ jobs:
     runs-on: ${{ github.inputs.os }}
     strategy:
       matrix:
-        architecture: ["${{ github.inputs.architecture }}"]
+        architecture: ["${{ github.event.inputs.architecture }}"]
     steps:
-      - name: Set up Python ${{ github.inputs.python-version }}
+      - name: Set up Python ${{ github.event.inputs.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ github.inputs.python-version }}
+          python-version: ${{ github.event.inputs.python-version }}
       - name: Download package
         run: |
           mkdir download_packages
           cd download_packages
-          pip3 download ${{ github.inputs.packages }}
+          pip3 download ${{ github.event.inputs.packages }}
       - name: upload
         uses: actions/upload-artifact@v4
         with:

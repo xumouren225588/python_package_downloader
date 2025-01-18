@@ -37,6 +37,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ github.event.inputs.python-version }}
+      - name: Get random code
+        run: |
+          python3 ra.py >> $GITHUB_ENV
       - name: Download package
         run: |
           mkdir download_packages
@@ -45,7 +48,7 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@v4
         with:
-          name: package_download
+          name: package_download_${{ env.RA }}
           path: download_packages/
           
     

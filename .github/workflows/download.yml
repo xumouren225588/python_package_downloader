@@ -1,0 +1,53 @@
+name: download python package
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        description: '请选择操作系统'
+        required: true
+        type: choice
+        options:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+      architecture:
+        description: '请选择架构'
+        required: true
+        type: choice
+        options:
+          - x64
+          - x86
+          - arm64
+      python-version:
+        description: '请输入Python版本（仅支持3.4及以上的部分版本）'
+        required: true
+        type: string
+      packages:
+        description: '请选择您要获取的第三方库名称（每个第三方库名称用空格隔开）'
+        required: true
+        type: string
+jobs:
+  download:
+    runs-on: ${{ github.inputs.os }}
+    strategy:
+      matrix:
+        architecture: ["${{ github.inputs.architecture }}"]
+    steps:
+      - name: Set up Python ${{ github.inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ github.inputs.python-version }}
+      - name: Download package
+        run: |
+          mkdir download_packages
+          cd download_packages
+          pip3 download ${{ github.inputs.packages }}
+      - name: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: package_download
+          path: download_packages/
+          
+    
+
+        

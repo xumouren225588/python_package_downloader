@@ -47,11 +47,13 @@ jobs:
           mkdir download_packages
           cd download_packages
           pip3 download ${{ github.event.inputs.packages }}
-      - name: upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: package_download_${{ env.RA }}
-          path: download_packages/
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Create project structure for ${{ inputs.project_name }}"
+          git push
           
     
 
